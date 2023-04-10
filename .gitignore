@@ -4,4 +4,5 @@ __pycache__
 !.gitignore 
 env/
 db.sqlite3
+media/avatars
 
