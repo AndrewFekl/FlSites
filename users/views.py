@@ -5,19 +5,20 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .models import User
 from registrar.models import Organization
-from .serializers import UserSerializer, LoginSerializer
+from .serializers import UserSerializer
 from django.shortcuts import get_object_or_404
 
-class CreateUserView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
 
-class LoginUserView(generics.UpdateAPIView):
-    queryset = User.objects.all()
-    serializer_class = LoginSerializer
+class UserRegistrationView(APIView):
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class UpdateUserView(generics.UpdateAPIView):
+class UserUpdateView(generics.UpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
