@@ -5,7 +5,8 @@ from django.contrib.auth import authenticate, login
 
 class UserSerializer(serializers.ModelSerializer):
 
-    organizations = OrganizationSerializer(many=True)
+    organizations = serializers.SlugRelatedField(slug_field='name', read_only=True, many=True)
+    #organizations = OrganizationSerializer(many=True)
 
     class Meta:
         model = User
